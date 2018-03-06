@@ -82,7 +82,7 @@ for line in reader:
 reader.close()
 
 if MOVE_IMPORTS:
-    output_scope.outtext = ("\n".join(imports_list) + '\n') + output_scope.outtext
+    output_scope.outtext = ("".join(imports_list) + '\n') + output_scope.outtext
 
 with open(output, 'w+', encoding="utf-8") as writer:
     writer.write(output_scope.outtext)
