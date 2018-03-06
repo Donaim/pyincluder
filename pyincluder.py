@@ -56,7 +56,7 @@ def include_file(indent, filepath):
 
     include_list.append(filepath)
     print("including \"{}\"".format(filepath))
-    simple_write(indent + INCLUDE_KEYWORD + '<' + filepath + '>')
+    simple_write(indent + '#py-included' + '<' + filepath + '>')
     with open(filepath, 'r') as ireader:
         curr_dir = os.path.dirname(filepath)
         for iline in ireader:
