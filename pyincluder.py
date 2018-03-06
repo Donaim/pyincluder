@@ -3,7 +3,7 @@ INCLUDE_LEN = len(INCLUDE_KEYWORD)
 
 MOVE_IMPORTS = True
 
-import sys, os
+import sys
 
 source = sys.argv[1]
 output   = sys.argv[2]
@@ -22,17 +22,11 @@ def count_whitespace(line):
         if c == ' ': count += 1
         else: break
     return count
-    
-def format_path(path):
-    path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
-    if (path[0] == '~'): path = os.path.expanduser('~') + path[1:]
-    return path
 def get_include_file(line):
     filepath = line.strip()[INCLUDE_LEN:]
     filepath = filepath.strip()
     if filepath[0] == '<' and filepath[-1] == '>':
         filepath = filepath[1:-1]
-        filepath = format_path(filepath)
         return filepath
     else:
         return None
