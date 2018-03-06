@@ -68,7 +68,7 @@ def simple_write(line):
 def is_import_line(strip):
     return strip.startswith("import") or ( strip.startswith("from") and "import" in strip )
 def parse_line(line, base_dir):
-    strip = line.strip()
+    strip = line.lstrip(' \t')
     if strip.startswith(INCLUDE_KEYWORD): 
         include(line, base_dir)
         simple_write('\n')
