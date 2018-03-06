@@ -27,19 +27,20 @@ def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
     if (path[0] == '~'): path = os.path.expanduser('~') + path[1:]
     return path
-def get_include_file(line):
+def get_include_file(line, base_dir):
     filepath = line.strip()[INCLUDE_LEN:]
     filepath = filepath.strip()
     if filepath[0] == '<' and filepath[-1] == '>':
         filepath = filepath[1:-1]
         filepath = format_path(filepath)
+        if not os.path.isabs(filepath): filepath = os.path.join(base_dir, filepath)
         return filepath
     else:
         return None
 
-def include(line):
+def include(line, base_dir):
     indent = ' ' * count_whitespace(line)
-    filepath = get_include_file(line)
+    filepath = get_include_file(line, base_dir)
     if not filepath: # not a valid include
         simple_write(line)
         return
@@ -51,14 +52,15 @@ def include(line):
 
     print("including \"{}\"".format(filepath))
     with open(filepath, 'r') as ireader:
+        curr_dir = os.path.dirname(filepath)
         for iline in ireader:
-            parse_line(indent + iline)
+            parse_line(indent + iline, curr_dir)
 def simple_write(line):
     output_scope.outtext += line
     # writer.write(line)
 def is_import_line(strip):
     return strip.startswith("import") or ( strip.startswith("from") and "import" in strip )
-def parse_line(line):
+def parse_line(line, base_dir):
     strip = line.strip()
     if strip.startswith(INCLUDE_KEYWORD): 
         include(line)
@@ -68,7 +70,7 @@ def parse_line(line):
     else: simple_write(line)
 
 for line in reader:
-    parse_line(line)
+    parse_line(line, os.path.dirname(source))
 
 reader.close()
 
