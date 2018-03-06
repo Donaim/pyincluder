@@ -69,7 +69,7 @@ def is_import_line(strip):
 def parse_line(line, base_dir):
     strip = line.strip()
     if strip.startswith(INCLUDE_KEYWORD): 
-        include(line)
+        include(line, base_dir)
         simple_write('\n')
     elif MOVE_IMPORTS and is_import_line(strip):
         if not strip in imports_list: imports_list.append(strip)
