@@ -2,6 +2,7 @@ INCLUDE_KEYWORD = "#include"
 INCLUDE_LEN = len(INCLUDE_KEYWORD)
 
 MOVE_IMPORTS = True
+LEAVE_HEADERS = True
 
 import sys, os
 
@@ -56,7 +57,7 @@ def include_file(indent, filepath):
 
     include_list.append(filepath)
     print("including \"{}\"".format(filepath))
-    simple_write(indent + '#py-included' + '<' + filepath + '>')
+    if LEAVE_HEADERS: simple_write(indent + '#py-included' + '<' + filepath + '>' + '\n')
     with open(filepath, 'r') as ireader:
         curr_dir = os.path.dirname(filepath)
         for iline in ireader:
