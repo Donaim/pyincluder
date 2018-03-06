@@ -2,7 +2,7 @@ INCLUDE_KEYWORD = "#include"
 INCLUDE_LEN = len(INCLUDE_KEYWORD)
 
 MOVE_IMPORTS = True
-LEAVE_HEADERS = True
+LEAVE_HEADERS = False
 
 import sys, os
 
@@ -50,11 +50,14 @@ def include(line, base_dir):
 def include_file(indent, filepath):
     if filepath in include_list:
         print("repeated include of \"{}\"".format(filepath))
+    if not os.path.exists(filepath):
+        print("attempt to include non existing file \"{}\"".format(filepath), file=sys.stderr)
     if filepath[-1] == os.path.sep: # include dir
         for f in os.listdir(filepath):
-            include_file(line, filepath)
-        return
+            include_file(line, f)
+    else: true_include(indent, filepath)
 
+def true_include(indent, filepath):
     include_list.append(filepath)
     print("including \"{}\"".format(filepath))
     if LEAVE_HEADERS: simple_write(indent + '#py-included' + '<' + filepath + '>' + '\n')
@@ -62,7 +65,7 @@ def include_file(indent, filepath):
         curr_dir = os.path.dirname(filepath)
         for iline in ireader:
             parse_line(indent + iline, curr_dir)
-    
+
 def simple_write(line):
     output_scope.outtext += line
     # writer.write(line)
