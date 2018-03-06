@@ -44,18 +44,19 @@ def include(line, base_dir):
     if not filepath: # not a valid include
         simple_write(line)
     else:
-        if filepath[-1] == os.path.sep: # include dir
-            for f in os.listdir(filepath):
-                include_file(line, filepath)
-        else:
-            include_file(indent, filepath)
+        include_file(indent, filepath)
 
 def include_file(indent, filepath):
     if filepath in include_list:
         print("repeated include of \"{}\"".format(filepath))
+    if filepath[-1] == os.path.sep: # include dir
+        for f in os.listdir(filepath):
+            include_file(line, filepath)
+        return
 
     include_list.append(filepath)
     print("including \"{}\"".format(filepath))
+    simple_write(INCLUDE_KEYWORD + '<' + filepath + '>')
     with open(filepath, 'r') as ireader:
         curr_dir = os.path.dirname(filepath)
         for iline in ireader:
