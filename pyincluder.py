@@ -43,18 +43,24 @@ def include(line, base_dir):
     filepath = get_include_file(line, base_dir)
     if not filepath: # not a valid include
         simple_write(line)
-        return
     else:
-        if filepath in include_list:
-            print("already copied \"{}\"".format(filepath))
+        if filepath[-1] == os.path.sep: # include dir
+            for f in os.listdir(filepath):
+                include_file(line, filepath)
         else:
-            include_list.append(filepath)
+            include_file(indent, filepath)
 
+def include_file(indent, filepath):
+    if filepath in include_list:
+        print("repeated include of \"{}\"".format(filepath))
+
+    include_list.append(filepath)
     print("including \"{}\"".format(filepath))
     with open(filepath, 'r') as ireader:
         curr_dir = os.path.dirname(filepath)
         for iline in ireader:
             parse_line(indent + iline, curr_dir)
+    
 def simple_write(line):
     output_scope.outtext += line
     # writer.write(line)
