@@ -82,8 +82,9 @@ def parse_line(line, base_dir):
         if not strip in imports_list: imports_list.append(strip)
     else: simple_write(line)
 
+source_dir = os.path.dirname(source)
 for line in reader:
-    parse_line(line, os.path.dirname(source))
+    parse_line(line, source_dir)
 
 reader.close()
 
