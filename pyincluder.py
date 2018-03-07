@@ -6,6 +6,7 @@ LEAVE_HEADERS = False
 
 import sys, os
 
+if len(sys.argv) <= 2: raise Exception("arguments missing. usage: \"pyincluder source.file.py output.file.py\"")
 source = sys.argv[1]
 output   = sys.argv[2]
 
@@ -29,7 +30,7 @@ def format_path(path):
     if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
     return path
 def get_include_file(line, base_dir):
-    filepath = line.strip()[INCLUDE_LEN:]
+    filepath = line.lstrip()[INCLUDE_LEN:]
     filepath = filepath.strip()
     if filepath[0] == '<' and filepath[-1] == '>':
         filepath = filepath[1:-1]
