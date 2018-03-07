@@ -6,11 +6,9 @@ LEAVE_HEADERS = False
 
 import sys, os
 
-if len(sys.argv) <= 2: raise Exception("arguments missing. usage: \"pyincluder source.file.py output.file.py\"")
+if len(sys.argv) <= 2: raise Exception("arguments missing! usage: \"pyincluder source.file.py output.file.py\"")
 source = sys.argv[1]
 output   = sys.argv[2]
-
-reader = open(source, 'r', encoding='utf-8')
 
 include_list = []
 imports_list = []
@@ -82,11 +80,10 @@ def parse_line(line, base_dir):
         if not strip in imports_list: imports_list.append(strip)
     else: simple_write(line)
 
-source_dir = os.path.dirname(source)
-for line in reader:
-    parse_line(line, source_dir)
-
-reader.close()
+with open(source, 'r', encoding='utf-8') as reader:
+    source_dir = os.path.dirname(source)
+    for line in reader:
+        parse_line(line, source_dir)
 
 if MOVE_IMPORTS:
     output_scope.outtext = ("".join(imports_list) + '\n') + output_scope.outtext
