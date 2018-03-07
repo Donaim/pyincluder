@@ -17,12 +17,12 @@ imports_list = []
 class output_scope(object):
     outtext = ""
 
-def count_whitespace(line):
-    count = 0
+def collect_whitespace(line: str):
+    re = ""
     for c in line:
-        if c == ' ': count += 1
+        if c.isspace(): re += c
         else: break
-    return count
+    return re
     
 def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
@@ -40,7 +40,7 @@ def get_include_file(line, base_dir):
         return None
 
 def include(line, base_dir):
-    indent = ' ' * count_whitespace(line)
+    indent = collect_whitespace(line)
     filepath = get_include_file(line, base_dir)
     if not filepath: # not a valid include
         simple_write(line)
