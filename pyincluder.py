@@ -26,7 +26,7 @@ def count_whitespace(line):
     
 def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
-    if (path[0] == '~'): path = os.path.expanduser('~') + path[1:]
+    if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
     return path
 def get_include_file(line, base_dir):
     filepath = line.strip()[INCLUDE_LEN:]
@@ -52,7 +52,8 @@ def include_file(indent, filepath):
         print("repeated include of \"{}\"".format(filepath))
     if not os.path.exists(filepath):
         print("attempt to include non existing file \"{}\"".format(filepath), file=sys.stderr)
-    if filepath[-1] == os.path.sep: # include dir
+    elif filepath[-1] == os.path.sep: # include dir
+        include_list.append(filepath)
         for f in os.listdir(filepath):
             include_file(line, f)
     else: true_include(indent, filepath)
