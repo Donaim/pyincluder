@@ -72,13 +72,16 @@ def simple_write(line):
 def is_import_line(strip):
     return strip.startswith("import") or ( strip.startswith("from") and "import" in strip )
 def parse_line(line, base_dir):
-    strip = line.lstrip(' \t')
-    if strip.startswith(INCLUDE_KEYWORD): 
+    strip = line.strip()
+    if strip.endswith("#pyincluder-ignore"):
+        simple_write(line)
+    elif strip.startswith(INCLUDE_KEYWORD):
         include(line, base_dir)
         simple_write('\n')
     elif MOVE_IMPORTS and is_import_line(strip):
         if not strip in imports_list: imports_list.append(strip)
-    else: simple_write(line)
+    else:
+        simple_write(line)
 
 with open(source, 'r', encoding='utf-8') as reader:
     source_dir = os.path.dirname(source)
@@ -86,7 +89,7 @@ with open(source, 'r', encoding='utf-8') as reader:
         parse_line(line, source_dir)
 
 if MOVE_IMPORTS:
-    output_scope.outtext = ("".join(imports_list) + '\n') + output_scope.outtext
+    output_scope.outtext = ("\n".join(imports_list) + '\n') + output_scope.outtext
 
 with open(output, 'w+', encoding="utf-8") as writer:
     writer.write(output_scope.outtext)
