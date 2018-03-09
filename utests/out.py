@@ -29,7 +29,13 @@ import sys
         lul lul
 class tag(object):
     def __init__(self, name, func):
-        self.name = name
+
+
+class arg(object):
+    def __init__(self):
+        self.command = None
+        self.tags = []
+    def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
         self.func = func
     def invoke(self, a):
         try:
@@ -44,13 +50,7 @@ class tag(object):
         if name in tags_dict: return tags_dict[name]
         elif name[0] == '-': return tag(name, None) # pure tag
         else: raise Exception("tag [{}] doesn't have handler!".format(name))
-
-
-class arg(object):
-    def __init__(self):
-        self.command = None
-        self.tags = []
-    def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
+#endmove
 def parse_args():
     def is_tag(line: str) -> bool: 
         return line.lstrip()[0] == '$'
