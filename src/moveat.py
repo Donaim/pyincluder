@@ -24,8 +24,10 @@ class moveat(line): # label_line
         if at_arg is None or at_arg.isspace(): return None
         else: return moveat(l, at_arg)
     
-    def append(self, l: line):
+    def read_callback(self, file, l: line):
         if l.text.lstrip().startswith(moveat_end_key):
-            return None
-        self.lines.append(l)
-        return self
+            self.line.sfile.appendf = file_std_append # end read
+        else:
+            self.lines.append(l)
+    def begin_read(self):
+        self.line.sfile.appendf = self.read_callback

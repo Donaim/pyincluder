@@ -10,6 +10,8 @@ def find_read_include_path(rawpath, current_dir, scope_dirs):
         if os.path.exists(path): return path
     return None
 
+def file_std_append(me, l): me.lines.append(l)
+
 def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
     copy = text.lstrip()
     if not copy.startswith(name): return (text, None)

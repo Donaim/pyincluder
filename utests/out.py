@@ -27,7 +27,6 @@ import sys
 
         hi !
         lul lul
-#moveat somelbl
 class tag(object):
     def __init__(self, name, func):
         self.name = name

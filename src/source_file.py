@@ -5,6 +5,7 @@ from src.include_line import in_line
 from src.moveat import moveat
 from src.scope import scope
 from src.outer import outer
+import src.helper
 
 import os
 
@@ -17,6 +18,7 @@ class source_file(object):
 
         self.lines = []
         self.my_includes = []
+        self.appendf = src.helper.file_std_append
         # self.included_files = []
         # self.my_labels = []
     @staticmethod
@@ -30,7 +32,6 @@ class source_file(object):
             x.target_file = source_file(x.realpath, self.sc)
             x.read_target()
     def __read_myself(self):
-        current_move: moveat = None
         with open(self.path, 'r') as reader:
             line_index = 0
             while True:
@@ -40,25 +41,25 @@ class source_file(object):
                 line_index += 1
                 l = line(text_line, self, line_index)
 
-                x = in_line.try_create(l)
-                if not x is None: 
-                    self.my_includes.append(x)
-                    rand_lbl = label.create_random(l)
-                    if x.target_label_name is None: x.target_label_name = rand_lbl.name
-                    self.lines.append(rand_lbl)
-                    continue
-                x = label.try_create(l)
-                if not x is None: 
-                    # self.my_labels.append(x)
-                    self.lines.append(x)
-                    continue
-                if current_move is None:
-                    current_move = moveat.try_create(l)
-
-                if current_move is None:
-                    self.lines.append(l)
-                else: 
-                    current_move = current_move.append(l)
+                if not self.__try_create_instructions(l): self.appendf(self, l)
+    def __try_create_instructions(self, l: line):
+        x = in_line.try_create(l)
+        if not x is None: 
+            self.my_includes.append(x)
+            rand_lbl = label.create_random(l)
+            if x.target_label_name is None: x.target_label_name = rand_lbl.name
+            self.lines.append(rand_lbl)
+            return True
+        x = label.try_create(l)
+        if not x is None: 
+            # self.my_labels.append(x)
+            self.lines.append(x)
+            return True
+        x = moveat.try_create(l)
+        if not x is None:
+            x.begin_read()
+            return True
+        return False
 
     def write_me(self, wr: outer, indent: str):
         for l in self.lines:
