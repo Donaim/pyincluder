@@ -1,5 +1,4 @@
 COMMENT_CHARS = '#'    # can also be '//' or '--'
-INCLUDE_KEYWORD = COMMENT_CHARS + "include"
 LEAVE_HEADERS = False
 
 import sys, os
@@ -23,24 +22,20 @@ class label(line): # label_line
         self.includes = []
 class in_line(line): # include_line
     coll = []
-    def __init__(self, text: str, path: str, lcopy: str):
+    def __init__(self, text: str, path: str, in_args: str):
         in_line.coll.append(self)
         self.line = line(text)
         self.indent = collect_whitespace(text)
 
-        # lcopy = text.lstrip()[1:] # skip indent and '#' symbol
         self.path = path
-        # (lcopy, self.path) = in_line.get_next_token_arg(lcopy, in_line.include_key, in_line.include_key_len, '<', '>', None)
-        (lcopy, self.target_label) = in_line.get_next_token_arg(lcopy, in_line.at_key, in_line.at_key_len, None, None, '() ')
-        (lcopy, self.condition)    = in_line.get_next_token_arg(lcopy, in_line.if_key, in_line.if_key_len, None, None, '() ')
+        in_args, self.target_label = in_line.get_next_token_arg(in_args, in_line.at_key, in_line.at_key_len, None, None, '() ')
+        in_args, self.condition    = in_line.get_next_token_arg(in_args, in_line.if_key, in_line.if_key_len, None, None, '() ')
     def try_create(text: str):
-        try: 
-            lcopy = text.lstrip()[1:]
-            (lcopy, path) = in_line.get_next_token_arg(lcopy, in_line.include_key, in_line.include_key_len, '<', '>', None)
-            return (True, in_line(text, path, lcopy))
-        except: return (False, None)
+        in_args, path = in_line.get_next_token_arg(text, in_line.include_key, in_line.include_key_len, '<', '>', None)
+        if path is None: return None
+        else: return in_line(text, path, in_args)
 
-    include_key = INCLUDE_KEYWORD[len(COMMENT_CHARS):]
+    include_key = COMMENT_CHARS + 'include'
     include_key_len = len(include_key)
     at_key = 'at'
     at_key_len = len(at_key)
@@ -82,9 +77,12 @@ def collect_whitespace(line: str):
         else: break
     return re
 
-iline = in_line.try_create("    #include <hello.txt> at kek if(move_imports)")[1]
-print(vars(iline))
-    
+res = in_line.try_create("    #include <hello.txt> at kek if(move_imports)")
+if not res is None:
+    print(vars(res))
+else:
+    print('res is none')
+
 # def format_path(path):
 #     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
 #     if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
