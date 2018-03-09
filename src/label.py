@@ -12,7 +12,7 @@ class label(line): # label_line
     coll = []
     def __init__(self, l: line):
         label.coll.append(self)
-        self.line = line.copy(l)
+        self.line = l
         self.label = get_label_name(l.text)
         self.includes = [] # fill it later
     def try_create(l: line):

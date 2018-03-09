@@ -6,9 +6,7 @@ class line(object):
         self.text = text
         self.sfile = sfile
         self.index = index
-    def copy(me):
-        return line(me.text, me.sfile, me.index)
-  
+        
     def is_whitespace_or_empty(self): return len(self.text) < 1 or self.text.isspace()
     def get_indent(self) -> str:
         re = ""

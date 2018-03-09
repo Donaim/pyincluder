@@ -2,6 +2,8 @@
 import src.config as config
 from src.line import line
 
+import os
+
 include_key = config.COMMENT_CHARS + 'include'
 include_key_len = len(include_key)
 at_key = 'at'
@@ -35,13 +37,14 @@ class in_line(line): # include_line
     coll = []
     def __init__(self, l: line, path: str, in_args: str):
         in_line.coll.append(self)
-        self.line = line.copy(l)
+        self.line = l
         self.indent = l.get_indent()
-
         self.path = path
+
         in_args, self.target_label = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
         in_args, self.condition    = get_next_token_arg(in_args, if_key, if_key_len, None, None, '() ')
     def try_create(l: line):
         in_args, path = get_next_token_arg(l.text, include_key, include_key_len, '<', '>', None)
         if path is None: return None
         else: return in_line(l, path, in_args)
+
