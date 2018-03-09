@@ -30,7 +30,6 @@ import sys
 class tag(object):
     def __init__(self, name, func):
 
-
 class arg(object):
     def __init__(self):
         self.command = None

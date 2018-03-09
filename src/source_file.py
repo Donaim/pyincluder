@@ -70,6 +70,5 @@ class source_file(object):
                 for m in l.moves:
                     for mline in m.lines:
                         wr.write(mline.text)
-                    wr.write('\n')
             else:
                 wr.write(indent + l.text)
