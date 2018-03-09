@@ -27,12 +27,7 @@ import sys
 
         hi !
         lul lul
-
-class arg(object):
-    def __init__(self):
-        self.command = None
-        self.tags = []
-    def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
+#moveat somelbl
 class tag(object):
     def __init__(self, name, func):
         self.name = name
@@ -49,7 +44,14 @@ class tag(object):
     def by_name(name):
         if name in tags_dict: return tags_dict[name]
         elif name[0] == '-': return tag(name, None) # pure tag
-        else: raise Exception("tag [{}] doesn't have handler!".format(name)) 
+        else: raise Exception("tag [{}] doesn't have handler!".format(name))
+
+
+class arg(object):
+    def __init__(self):
+        self.command = None
+        self.tags = []
+    def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
 def parse_args():
     def is_tag(line: str) -> bool: 
         return line.lstrip()[0] == '$'

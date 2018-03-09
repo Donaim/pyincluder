@@ -4,7 +4,7 @@ from src.helper import *
 from src.config import *
 import random
 
-moveat_key = COMMENT_CHARS + 'move'
+moveat_key = COMMENT_CHARS + 'moveat'
 moveat_key_len = len(moveat_key)
 moveat_end_key = COMMENT_CHARS + 'endmove'
 moveat_end_key_len = len(moveat_end_key)

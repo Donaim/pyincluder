@@ -33,10 +33,13 @@ class source_file(object):
         current_move: moveat = None
         with open(self.path, 'r') as reader:
             line_index = 0
-            for text_line in reader:
+            while True:
+                text_line = reader.readline()
+                if not text_line: break
+
                 line_index += 1
                 l = line(text_line, self, line_index)
- 
+
                 x = in_line.try_create(l)
                 if not x is None: 
                     self.my_includes.append(x)
@@ -49,11 +52,13 @@ class source_file(object):
                     # self.my_labels.append(x)
                     self.lines.append(x)
                     continue
+                if current_move is None:
+                    current_move = moveat.try_create(l)
 
-                if current_move is not None:
-                    current_move = current_move.append(l)
-                else: 
+                if current_move is None:
                     self.lines.append(l)
+                else: 
+                    current_move = current_move.append(l)
 
     def write_me(self, wr: outer, indent: str):
         for l in self.lines:
@@ -62,6 +67,8 @@ class source_file(object):
                     i.target_file.write_me(wr, indent + l.indent)
                     wr.write('\n')
                 for m in l.moves:
-                    wr.write(m.text)
+                    for mline in m.lines:
+                        wr.write(mline.text)
+                    wr.write('\n')
             else:
                 wr.write(indent + l.text)
