@@ -42,8 +42,10 @@ class ParsersTest(unittest.TestCase):
         sf = source_file.create_root("utests\\sample_test_file.py")
         sf.read()
         sf.sc.connect_labels()
+        
         wr = outer('utests\\out.py')
-
+        sf.write_me(wr)
+        wr.close()
 
 
 

@@ -10,11 +10,11 @@ class scope(object):
         self.file_list = []
         self.label_dict = {}
     def connect_labels(self):
-        label_dict = dict(map(lambda l: (l.label, l.includes), self.label_list))
+        label_dict = dict(map(lambda l: (l, l.includes), self.label_list))
         
         for inc in self.include_list:
-            if inc.target_label.label in label_dict:
-                label_dict[inc.target_label.label].append(inc)
+            if inc.target_label in label_dict:
+                label_dict[inc.target_label].append(inc)
 
         # print("\nLABEL DICT=", label_dict)
         
