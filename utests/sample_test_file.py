@@ -16,7 +16,7 @@ tag_funcs_static = filter(lambda name: name[0] != '_', dir(tag_funcs))
 # for stderr
 import sys
 
-        # somelbl#:
+        #label somelbl
 
 class arg(object):
     def __init__(self):
