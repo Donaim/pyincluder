@@ -11,9 +11,9 @@ class scope(object):
     def connect_labels(self):
         def get_label(name):
             for lab in self.label_list:
-                if name == lab.label: return lab
+                if name == lab.name: return lab
             return None
-        # print("LABELS:[{}]".format(",".join(map(lambda l: l.label, self.label_list))))
+        # print("LABELS:[{}]".format(",".join(map(lambda l: l.name, self.label_list))))
 
         for inc in self.include_list:
             lbl = get_label(inc.target_label)

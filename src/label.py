@@ -15,7 +15,7 @@ class label(line): # label_line
     def __init__(self, l: line, lname: str):
         self.line = l
         self.line.sfile.sc.label_list.append(self)
-        self.label = lname
+        self.name = lname
         self.indent = self.line.get_indent()
         self.includes = [] # fill it later
     
