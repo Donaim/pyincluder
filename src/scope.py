@@ -29,7 +29,7 @@ class scope(object):
             lbl = get_label(mv.target_label_name)
             if lbl is None: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.line.index, mv.line.sfile.path))
             
-            if any(map(lambda x: x.target_label_name == mv.target_label_name and x.line.sfile.path == mv.line.sfile.path and x.end_index == mv.end_index, self.move_no_duplicates)):
+            if any(map(lambda x: x.cmp(mv), self.move_no_duplicates)):
                 print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.line.sfile.path))
                 continue # dont read repeated files
             lbl.moves.append(mv)

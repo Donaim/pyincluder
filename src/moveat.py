@@ -37,3 +37,9 @@ class moveat(line): # label_line
             self.lines.append(l)
     def begin_read(self):
         self.line.sfile.appendf = self.__read_callback
+
+
+    @staticmethod
+    def compare(a, b):
+        return a.target_label_name == b.target_label_name and a.line.sfile.path == b.line.sfile.path and a.end_index == b.end_index
+    def cmp(self, b): return moveat.compare(self, b)
