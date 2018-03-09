@@ -19,6 +19,7 @@ class moveat(line): # label_line
         self.lines = [] # fill it later
 
         self.max_lines = -1
+        self.end_index = -1
         max_lines_str = args.strip()
         if max_lines_str.isdigit(): self.max_lines = int(max_lines_str)
 
@@ -31,6 +32,7 @@ class moveat(line): # label_line
     def __read_callback(self, file, l: line):
         if l.text.lstrip().startswith(moveat_end_key) or (self.max_lines > 0 and len(self.lines) >= self.max_lines):
             self.line.sfile.appendf = file_std_append # end read
+            self.end_index = l.index
         else:
             self.lines.append(l)
     def begin_read(self):
