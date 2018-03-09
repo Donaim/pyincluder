@@ -16,27 +16,27 @@ def format_obj(obj):
     return v
 
 class ParsersTest(unittest.TestCase):
-    # def test_in_line(self):
-    #     l = line("    #include <hello.txt> at kek if(move_imports)", source_file.create_root("bebe.py") , 1)
-    #     inc = in_line.try_create(l)
-    #     if not inc is None:
-    #         pp.pprint(format_obj(inc))
+    def test_in_line(self):
+        l = line("    #include <hello.txt> at kek if(move_imports)", source_file.create_root("bebe.py") , 1)
+        inc = in_line.try_create(l)
+        if not inc is None:
+            pp.pprint(format_obj(inc))
 
-    #     self.assertIsNotNone(inc)
-    # def test_label(self):
-    #     l = line("print(hi) #  some_label:", source_file.create_root("bebe.py"), 1)
-    #     lab = label.try_create(l)
-    #     if not lab is None: 
-    #         pp.pprint(format_obj(lab))
+        self.assertIsNotNone(inc)
+    def test_label(self):
+        l = line("print(hi) #  some_label:", source_file.create_root("bebe.py"), 1)
+        lab = label.try_create(l)
+        if not lab is None: 
+            pp.pprint(format_obj(lab))
 
-    #     self.assertIsNotNone(lab)
+        self.assertIsNotNone(lab)
 
-    # def test_sfile(self):
-    #     sf = source_file.create_root("utests\\sample_test_file.py")
-    #     sf.read()
+    def test_sfile(self):
+        sf = source_file.create_root("utests\\sample_test_file.py")
+        sf.read()
 
-    #     print("test_file includes:")
-    #     pp.pprint(list(map(lambda x: format_obj(x), sf.sc.include_list)))
+        print("test_file includes:")
+        pp.pprint(list(map(lambda x: format_obj(x), sf.sc.include_list)))
 
     def test_writer(self):
         sf = source_file.create_root("utests\\sample_test_file.py")
