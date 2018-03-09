@@ -29,9 +29,9 @@ class include_line(line):
         self.indent = collect_whitespace(text)
 
         wtext = text.lstrip()[1:] # skip indent and '#' symbol
-        (wtext, self.include_file) = include_line.get_next_token_arg(wtext, include_line.include_key, include_line.include_key_len, '<', '>')
-        (wtext, self.target_label) = include_line.get_next_token_arg(wtext, include_line.at_key, include_line.at_key_len, None, None)
-        (wtext, self.condition)    = include_line.get_next_token_arg(wtext, include_line.if_key, include_line.if_key_len, None, None)
+        (wtext, self.include_file) = include_line.get_next_token_arg(wtext, include_line.include_key, include_line.include_key_len, '<', '>', None)
+        (wtext, self.target_label) = include_line.get_next_token_arg(wtext, include_line.at_key, include_line.at_key_len, None, None, '() ')
+        (wtext, self.condition)    = include_line.get_next_token_arg(wtext, include_line.if_key, include_line.if_key_len, None, None, '() ')
     
     include_key = "include"
     include_key_len = len(include_key)
@@ -39,7 +39,7 @@ class include_line(line):
     at_key_len = len(at_key)
     if_key = 'if'
     if_key_len = len(if_key)
-    def get_next_token_arg(text, name, name_len, open_char, close_char):
+    def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
         copy = text.lstrip()
         if not copy.startswith(name): return (text, None)
         
@@ -48,7 +48,7 @@ class include_line(line):
         if open_char != None:
             if copy[0] != open_char: raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, open_char))
             copy = copy[1:]
-            # copy = copy.lstrip()
+        copy = copy.lstrip(ss)
         if close_char != None:
             close_index = copy.find(close_char)
             if close_index == -1: raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
@@ -57,7 +57,7 @@ class include_line(line):
             while close_index < len(copy) and not copy[close_index].isspace(): close_index += 1
         
         re = copy[:close_index]
-        # re = re.rstrip()
+        re = re.rstrip(ss)
         copy = copy[close_index + 1:]
         copy = copy.lstrip()
         return (copy, re)
