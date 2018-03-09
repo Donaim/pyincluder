@@ -1,5 +1,5 @@
-INCLUDE_KEYWORD = "#include"
-
+COMMENT_CHARS = '#'    # can also be '//' or '--'
+INCLUDE_KEYWORD = COMMENT_CHARS + "include"
 LEAVE_HEADERS = False
 
 import sys, os
@@ -14,26 +14,33 @@ class output_scope(object):
 class line(object):
     def __init__(self, text):
         self.text = text
-class include_label(line):
+class label(line): # label_line
     coll = []
     def __init__(self, text):
-        include_label.coll.append(self)
+        label.coll.append(self)
         self.line = line(text)
         self.label = NotImplemented
         self.includes = []
-class include_line(line):
+class in_line(line): # include_line
     coll = []
-    def __init__(self, text):
-        include_line.coll.append(self)
+    def __init__(self, text: str, path: str, lcopy: str):
+        in_line.coll.append(self)
         self.line = line(text)
         self.indent = collect_whitespace(text)
 
-        wtext = text.lstrip()[1:] # skip indent and '#' symbol
-        (wtext, self.include_file) = include_line.get_next_token_arg(wtext, include_line.include_key, include_line.include_key_len, '<', '>', None)
-        (wtext, self.target_label) = include_line.get_next_token_arg(wtext, include_line.at_key, include_line.at_key_len, None, None, '() ')
-        (wtext, self.condition)    = include_line.get_next_token_arg(wtext, include_line.if_key, include_line.if_key_len, None, None, '() ')
-    
-    include_key = "include"
+        # lcopy = text.lstrip()[1:] # skip indent and '#' symbol
+        self.path = path
+        # (lcopy, self.path) = in_line.get_next_token_arg(lcopy, in_line.include_key, in_line.include_key_len, '<', '>', None)
+        (lcopy, self.target_label) = in_line.get_next_token_arg(lcopy, in_line.at_key, in_line.at_key_len, None, None, '() ')
+        (lcopy, self.condition)    = in_line.get_next_token_arg(lcopy, in_line.if_key, in_line.if_key_len, None, None, '() ')
+    def try_create(text: str):
+        try: 
+            lcopy = text.lstrip()[1:]
+            (lcopy, path) = in_line.get_next_token_arg(lcopy, in_line.include_key, in_line.include_key_len, '<', '>', None)
+            return (True, in_line(text, path, lcopy))
+        except: return (False, None)
+
+    include_key = INCLUDE_KEYWORD[len(COMMENT_CHARS):]
     include_key_len = len(include_key)
     at_key = 'at'
     at_key_len = len(at_key)
@@ -75,14 +82,14 @@ def collect_whitespace(line: str):
         else: break
     return re
 
-iline = include_line("    #include <hello.txt> if (move_imports)")
+iline = in_line.try_create("    #include <hello.txt> at kek if(move_imports)")[1]
 print(vars(iline))
     
 # def format_path(path):
 #     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
 #     if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
 #     return path
-# def get_include_file(line, base_dir):
+# def get_path(line, base_dir):
 #     filepath = line.lstrip()[INCLUDE_LEN:]
 #     filepath = filepath.strip()
 #     if filepath[0] == '<' and filepath[-1] == '>':
@@ -95,13 +102,13 @@ print(vars(iline))
 
 # def include(line, base_dir):
 #     indent = collect_whitespace(line)
-#     filepath = get_include_file(line, base_dir)
+#     filepath = get_path(line, base_dir)
 #     if not filepath: # not a valid include
 #         simple_write(line)
 #     else:
-#         include_file(indent, filepath)
+#         path(indent, filepath)
 
-# def include_file(indent, filepath):
+# def path(indent, filepath):
 #     if filepath in include_list:
 #         print("repeated include of \"{}\"".format(filepath))
 #     if not os.path.exists(filepath):
@@ -109,7 +116,7 @@ print(vars(iline))
 #     elif filepath[-1] == os.path.sep: # include dir
 #         include_list.append(filepath)
 #         for f in os.listdir(filepath):
-#             include_file(line, f)
+#             path(line, f)
 #     else: true_include(indent, filepath)
 
 # def true_include(indent, filepath):
