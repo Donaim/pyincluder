@@ -23,16 +23,15 @@ class include_label(line):
         self.includes = []
 class include_line(line):
     coll = []
-    
     def __init__(self, text):
         include_line.coll.append(self)
         self.line = line(text)
         self.indent = collect_whitespace(text)
 
         wtext = text.lstrip()[1:] # skip indent and '#' symbol
-        (wtext, self.include_file) = include_line.get_next_token_arg(wtext, 'include', '<', '>')
-        (wtext, self.target_label) = include_line.get_next_token_arg(wtext, include_line.at_key, '(', ')')
-        (wtext, self.condition)    = include_line.get_next_token_arg(wtext, include_line.if_key, '(', ')')
+        (wtext, self.include_file) = include_line.get_next_token_arg(wtext, include_line.include_key, include_line.include_key_len, '<', '>')
+        (wtext, self.target_label) = include_line.get_next_token_arg(wtext, include_line.at_key, include_line.at_key_len, '(', ')')
+        (wtext, self.condition)    = include_line.get_next_token_arg(wtext, include_line.if_key, include_line.if_key_len, '(', ')')
     
     include_key = "include"
     include_key_len = len(include_key)
@@ -40,20 +39,20 @@ class include_line(line):
     at_key_len = len(at_key)
     if_key = 'if'
     if_key_len = len(if_key)
-    def get_next_token_arg(text, name, open_char, close_char):
-        text = text.lstrip()
-        if not text.startswith(name): return (text, None)
+    def get_next_token_arg(text, name, name_len, open_char, close_char):
+        copy = text.lstrip()
+        if not copy.startswith(name): return (text, None)
         
-        text = text[len(name):]
-        text = text.lstrip()
-        if text[0] != open_char: raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, open_char))
-        text = text[1:]
-        close_index = text.find(close_char)
-        if close_index == -1: raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, close_char))
-        re = text[:close_index]
-        text = text[close_index + 1:]
-        text = text.lstrip()
-        return (text, re)
+        copy = copy[name_len:]
+        copy = copy.lstrip()
+        if copy[0] != open_char: raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, open_char))
+        copy = copy[1:]
+        close_index = copy.find(close_char)
+        if close_index == -1: raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
+        re = copy[:close_index]
+        copy = copy[close_index + 1:]
+        copy = copy.lstrip()
+        return (copy, re)
 class source_file(object):
     coll = []
     def __init__(self, path):
