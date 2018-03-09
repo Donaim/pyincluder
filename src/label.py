@@ -21,10 +21,12 @@ class label(line): # label_line
     
     @staticmethod
     def try_create(l: line):
-        if not l.is_whitespace_or_empty() and l.text[-1] == ':': 
-            return label(l, get_label_name(l.text))
-        else: return None
+        if not l.is_whitespace_or_empty():
+            rstr =l.text.rstrip()
+            if rstr[-1] == ':':
+                return label(l, get_label_name(rstr))
+        return None
     @staticmethod
     def create_random(l: line):
-        randstr = ''.join(random.choice('abcde') for _ in range(3))
+        randstr = ''.join(random.choice('ZBOEXTW') for _ in range(16))
         return label(l, randstr)

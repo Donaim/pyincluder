@@ -17,6 +17,7 @@ class source_file(object):
         self.lines = []
         self.my_includes = []
         # self.included_files = []
+        # self.my_labels = []
     @staticmethod
     def create_root(path):
         return source_file(path, scope())
@@ -43,7 +44,7 @@ class source_file(object):
                     continue
                 x = label.try_create(l)
                 if not x is None: 
-                    self.my_labels.append(x)
+                    # self.my_labels.append(x)
                     self.lines.append(x)
                     continue
  
