@@ -17,15 +17,15 @@ class source_file(object):
         self.lines = []
         self.my_includes = []
         self.my_labels = []
+        self.included_files = []
     
     def read(self):
         self.__read_myself()
+        
         for x in self.my_includes:
-            realpath = src.helper.format_path(x.path)
-            if not os.path.isabs(realpath): realpath = os.path.join(self.dirname, realpath)
-            target_file = source_file(realpath, self.indent + x.indent)
+            target_file = source_file(x.realpath, self.indent + x.indent)
             target_file.read()
- 
+            self.included_files.append(target_file)
     def __read_myself(self):
         with open(self.path, 'r') as reader:
             line_index = 0
@@ -36,6 +36,8 @@ class source_file(object):
                 x = in_line.try_create(l)
                 if not x is None: 
                     self.my_includes.append(x)
+                    if x.target_label is None:
+                        x.target_label = label(l, x.realpath)
                     continue
                 x = label.try_create(l)
                 if not x is None: 
