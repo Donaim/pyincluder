@@ -46,9 +46,7 @@ class source_file(object):
         x = in_line.try_create(l)
         if not x is None: 
             self.my_includes.append(x)
-            rand_lbl = label.create_random(l)
-            if x.target_label_name is None: x.target_label_name = rand_lbl.name
-            self.lines.append(rand_lbl)
+            if x.target_label_unique: self.lines.append(label(l, x.target_label_name, ''))
             return True
         x = label.try_create(l)
         if not x is None: 

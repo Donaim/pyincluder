@@ -27,6 +27,6 @@ class scope(object):
             lbl = get_label(mv.target_label_name)
             if lbl is None: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.line.index, mv.line.sfile.path))
             lbl.moves.append(mv)
-
+    
 
         

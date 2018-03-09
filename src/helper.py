@@ -1,4 +1,4 @@
-import os
+import os, random
 
 def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
@@ -11,6 +11,9 @@ def find_read_include_path(rawpath, current_dir, scope_dirs):
     return None
 
 def file_std_append(me, l): me.lines.append(l)
+
+def create_random_name():
+    return ''.join(random.choice('ZBOEXTW') for _ in range(16))
 
 def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
     copy = text.lstrip()
