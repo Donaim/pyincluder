@@ -9,12 +9,13 @@ def get_label_name(text: str) -> str:
     return re
 
 class label(line): # label_line
-    coll = []
     def __init__(self, l: line, lname: str):
-        label.coll.append(self)
         self.line = l
+        self.line.sfile.sc.label_list.append(self)
         self.label = lname
         self.includes = [] # fill it later
+    
+    @staticmethod
     def try_create(l: line):
         if not l.is_whitespace_or_empty() and l.text[-1] == ':': 
             return label(l, get_label_name(l.text))

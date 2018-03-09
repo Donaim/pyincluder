@@ -35,10 +35,9 @@ def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
     return (copy, re)
 
 class in_line(line): # include_line
-    coll = []
     def __init__(self, l: line, path: str, in_args: str):
-        in_line.coll.append(self)
         self.line = l
+        self.line.sfile.sc.include_list.append(self)
         self.indent = l.get_indent()
 
         self.path = path
@@ -47,6 +46,8 @@ class in_line(line): # include_line
 
         in_args, self.target_label = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
         in_args, self.condition    = get_next_token_arg(in_args, if_key, if_key_len, None, None, '() ')
+    
+    @staticmethod
     def try_create(l: line):
         in_args, path = get_next_token_arg(l.text, include_key, include_key_len, '<', '>', None)
         if path is None: return None
