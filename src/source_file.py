@@ -17,7 +17,6 @@ class source_file(object):
         self.indent = indent
         self.lines = []
         self.my_includes = []
-        # self.my_labels = []
         # self.included_files = []
     @staticmethod
     def create_root(path):
@@ -27,20 +26,19 @@ class source_file(object):
         self.__read_myself()
         
         for x in self.my_includes:
-            x.target_file = source_file(x.realpath, self.sc, self.indent + x.indent)
+            x.target_file = source_file(x.realpath, self.sc, self.indent + x.target_label.indent)
             x.read_target()
     def __read_myself(self):
         with open(self.path, 'r') as reader:
             line_index = 0
             for text_line in reader:
                 line_index += 1
-                l = line(self.indent + text_line, self, line_index)
+                l = line(text_line, self, line_index)
  
                 x = in_line.try_create(l)
                 if not x is None: 
                     self.my_includes.append(x)
-                    if x.target_label is None:
-                        x.target_label = label(l, x.realpath)
+                    if x.target_label is None: x.target_label = label.create_random(l)
                     self.lines.append(x.target_label)
                     continue
                 x = label.try_create(l)
@@ -56,4 +54,4 @@ class source_file(object):
                 for i in l.includes:
                     i.target_file.write_me(wr)
             else:
-                wr.write(l.text)
+                wr.write(self.indent + l.text)

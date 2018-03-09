@@ -13,5 +13,5 @@ class line(object):
         for c in self.text:
             if c.isspace(): re += c
             else: break
-        return re
+        return self.sfile.indent + re
 

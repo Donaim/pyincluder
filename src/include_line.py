@@ -38,7 +38,6 @@ class in_line(line): # include_line
     def __init__(self, l: line, path: str, in_args: str):
         self.line = l
         self.line.sfile.sc.include_list.append(self)
-        self.indent = l.get_indent()
 
         self.path = path
         self.realpath = src.helper.format_path(path)
