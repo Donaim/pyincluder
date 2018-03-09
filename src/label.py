@@ -18,8 +18,14 @@ class label(line): # label_line
         self.includes = [] # fill it later
 
         args, self.condition_str     = get_next_token_arg(args, if_key, if_key_len, None, None, '() ')
+        if self.condition_str is None or self.condition_str.isspace() or len(self.condition_str) == 0:
+            self.condition_str = None
     def isok(self):
-        return self.condition_str in self.line.sfile.sc.variables or self.condition_str is None or self.condition_str.isspace()
+        if self.condition_str is None: return True
+        re = self.condition_str in self.line.sfile.sc.variables
+
+        if self.condition_str.startswith('!'): return not re
+        else: return re
 
     @staticmethod
     def try_create(l: line):
