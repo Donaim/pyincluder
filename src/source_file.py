@@ -39,7 +39,7 @@ class source_file(object):
                 if not x is None: 
                     self.my_includes.append(x)
                     rand_lbl = label.create_random(l)
-                    if x.target_label is None: x.target_label = rand_lbl.name
+                    if x.target_label_name is None: x.target_label_name = rand_lbl.name
                     self.lines.append(rand_lbl)
                     continue
                 x = label.try_create(l)

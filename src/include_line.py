@@ -44,8 +44,8 @@ class in_line(line): # include_line
         if not os.path.isabs(self.realpath): self.realpath = os.path.join(self.line.sfile.dirname, path)
         self.target_file = None # gonna get it later
 
-        in_args, self.target_label = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
-        in_args, self.condition    = get_next_token_arg(in_args, if_key, if_key_len, None, None, '() ')
+        in_args, self.target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
+        in_args, self.condition_str     = get_next_token_arg(in_args, if_key, if_key_len, None, None, '() ')
     
     @staticmethod
     def try_create(l: line):
