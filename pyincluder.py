@@ -11,29 +11,48 @@ class output_scope(object):
     outtext = ""
 
 class line(object):
-    def __init__(self, text):
+    def __init__(self, text: str, source_file: str):
         self.text = text
+        self.source_file = source_file
+    def is_whitespace_or_empty(self): return len(self.text) < 1 or self.text.isspace()
+    def get_indent(self) -> str:
+        re = ""
+        for c in self.text:
+            if c.isspace(): re += c
+            else: break
+        return re
+    def copy(me):
+        return line(me.text, me.source_file)
 class label(line): # label_line
     coll = []
-    def __init__(self, text):
+    def __init__(self, l: line):
         label.coll.append(self)
-        self.line = line(text)
-        self.label = NotImplemented
-        self.includes = []
+        self.line = line.copy(l)
+        self.label = label.get_label_name(l.text)
+        self.includes = [] # fill it later
+    def get_label_name(text: str) -> str:
+        re = ""
+        for c in reversed(text):
+            if not c.isspace(): re = c + re
+            else: break
+        return re
+    def try_create(l: line):
+        if not l.is_whitespace_or_empty() and l.text[-1] == ':': return label(l)
+        else: return None
 class in_line(line): # include_line
     coll = []
-    def __init__(self, text: str, path: str, in_args: str):
+    def __init__(self, l: line, path: str, in_args: str):
         in_line.coll.append(self)
-        self.line = line(text)
-        self.indent = collect_whitespace(text)
+        self.line = line.copy(l)
+        self.indent = l.get_indent()
 
         self.path = path
         in_args, self.target_label = in_line.get_next_token_arg(in_args, in_line.at_key, in_line.at_key_len, None, None, '() ')
         in_args, self.condition    = in_line.get_next_token_arg(in_args, in_line.if_key, in_line.if_key_len, None, None, '() ')
-    def try_create(text: str):
-        in_args, path = in_line.get_next_token_arg(text, in_line.include_key, in_line.include_key_len, '<', '>', None)
+    def try_create(l: line):
+        in_args, path = in_line.get_next_token_arg(l.text, in_line.include_key, in_line.include_key_len, '<', '>', None)
         if path is None: return None
-        else: return in_line(text, path, in_args)
+        else: return in_line(l, path, in_args)
 
     include_key = COMMENT_CHARS + 'include'
     include_key_len = len(include_key)
@@ -70,18 +89,19 @@ class source_file(object):
         self.path = path
         self.lines = []
 
-def collect_whitespace(line: str):
-    re = ""
-    for c in line:
-        if c.isspace(): re += c
-        else: break
-    return re
+l = line("    #include <hello.txt> at kek if(move_imports)", "bebe.py")
+inc = in_line.try_create(l)
+if not inc is None:
+    print(vars(inc))
+else: 
+    print('inc is None!')
 
-res = in_line.try_create("    #include <hello.txt> at kek if(move_imports)")
-if not res is None:
-    print(vars(res))
-else:
-    print('res is none')
+l = line("print(hi) #  some_label:", "bebe.py")
+lab = label.try_create(l)
+if not lab is None: 
+    print(vars(lab))
+else: 
+    print("lab is None!")
 
 # def format_path(path):
 #     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
