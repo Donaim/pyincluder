@@ -9,7 +9,7 @@ def get_label_name(text: str) -> str:
     for c in reversed(text):
         if not c.isspace(): re = c + re
         else: break
-    return re
+    return re[:-1]
 
 class label(line): # label_line
     def __init__(self, l: line, lname: str):

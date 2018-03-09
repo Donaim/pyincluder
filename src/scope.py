@@ -10,10 +10,15 @@ class scope(object):
         self.file_list = []
         # self.label_dict = {}
     def connect_labels(self):
-        for inc in self.include_list:
+        def get_label(name):
             for lab in self.label_list:
-                if inc.target_label.label == lab.label:
-                    lab.includes.append(inc)
+                if name == lab.label: return lab
+            return None
+            
+        for inc in self.include_list:
+            lbl = get_label(inc.target_label)
+            if lbl is None: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label, inc.path))
+            lbl.includes.append(inc)
         
 
         

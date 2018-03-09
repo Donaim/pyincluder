@@ -1,12 +1,6 @@
 TARGET_INFO='''
-$[-pylink] ~/Desktop/Probf/primitive.py
-#$[-symlink] ~/Desktop/Probf/primitive.py
-$[-windows] https://raw.githubusercontent.com/Donaim/ProblemFlawiusza/master/primitive.py
-# https://github.com/Donaim/ProblemFlawiusza.git
-$ -windows  ,  local
-
-# jest tutaj miejsce dla adresow. wyszukiwanie jest pryorytetowane z gory do dolu
-# second non-emty non-comment line is defined to be the beginning of TARGET_INFO string
+hi !
+lul lul
 '''
 
 DEFAULT_TAG = 'auto'
@@ -19,21 +13,21 @@ class tag_funcs(object):
     ##include <tags/basic.py>
     ##include <tags/git.py>
     
-            $[-pylink] ~/Desktop/Probf/primitive.py
-            #$[-symlink] ~/Desktop/Probf/primitive.py
-            $[-windows] https://raw.githubusercontent.com/Donaim/ProblemFlawiusza/master/primitive.py
-            # https://github.com/Donaim/ProblemFlawiusza.git
-            $ -windows  ,  local
-            
-            # jest tutaj miejsce dla adresow. wyszukiwanie jest pryorytetowane z gory do dolu
-            # second non-emty non-comment line is defined to be the beginning of TARGET_INFO string
+        hi !
+        lul lul
+
     pass
 
 # parsing tag_fucs
 tag_funcs_static = filter(lambda name: name[0] != '_', dir(tag_funcs))
 
+hi !
+lul lul
+
 # for stderr
 import sys
+
+        # somelbl:
 
 class arg(object):
     def __init__(self):
@@ -105,4 +99,5 @@ def parse_args():
 tags_dict = dict(map(lambda name: (name, tag(name, getattr(tag_funcs, name))), tag_funcs_static))
 args_list = []
 parse_args()
+
 

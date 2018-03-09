@@ -11,8 +11,12 @@ class tag_funcs(object):
 # parsing tag_fucs
 tag_funcs_static = filter(lambda name: name[0] != '_', dir(tag_funcs))
 
+#include <target_info.txt>
+
 # for stderr
 import sys
+
+        # somelbl:
 
 class arg(object):
     def __init__(self):
