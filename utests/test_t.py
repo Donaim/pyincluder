@@ -29,9 +29,6 @@ class ParsersTest(unittest.TestCase):
         self.assertIsNotNone(lab)
 
     def test_sfile(self):
-        f = "test_sfile.py"
+        f = "utests\\sample_test_file.py"
         sf = source_file(f)
         sf.read()
-        # pp.pprint(list(map(lambda x: x.text, sf.lines)))
-
-unittest.main()
