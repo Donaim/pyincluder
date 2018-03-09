@@ -7,6 +7,8 @@ from src.line import line
 from src.label import label
 from src.include_line import in_line
 from src.source_file import source_file
+from src.scope import scope
+from src.outer import outer
 
 def format_obj(obj):
     v = vars(obj)
@@ -39,6 +41,9 @@ class ParsersTest(unittest.TestCase):
     def test_writer(self):
         sf = source_file.create_root("utests\\sample_test_file.py")
         sf.read()
+        sf.sc.connect_labels()
+        wr = outer('utests\\out.py')
+
 
 
 

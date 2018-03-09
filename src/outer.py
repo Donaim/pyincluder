@@ -1,16 +1,10 @@
 
-from src.line import line
-from src.label import label
-from src.include_line import in_line
-from src.source_file import source_file
-
 import os
 
-class writer(object);
+class outer(object):
     def __init__(self, out_path: str):
         self.out_path = out_path
-    def write(root_file: source_file):
-        
-
-        pass
+        self.out = open(self.out_path, 'w+', encoding='utf-8')
+    def write(self, text: str):
+        self.out.write(text)
     

@@ -3,6 +3,7 @@ from src.line import line
 from src.label import label
 from src.include_line import in_line
 from src.scope import scope
+from src.outer import outer
 
 import os
 
@@ -50,3 +51,5 @@ class source_file(object):
                     continue
  
                 self.lines.append(l)
+    def write_me(self, wr: outer):
+        pass
