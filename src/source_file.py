@@ -12,8 +12,10 @@ class source_file(object):
     
     def read(self):
         with open(self.path, 'r') as reader:
+            line_index = 1
             for text_line in reader:
-                l = line(text_line, self)
+                l = line(text_line, self, line_index)
 
 
                 self.lines.append(l)
+                line_index += 1
