@@ -54,6 +54,6 @@ class source_file(object):
             if type(l) is label and l.isok():
                 for i in l.includes:
                     i.target_file.write_me(wr, indent + l.indent)
+                    wr.write('\n')
             else:
                 wr.write(indent + l.text)
-        wr.write('\n')

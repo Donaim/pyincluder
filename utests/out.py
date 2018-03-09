@@ -99,4 +99,3 @@ tags_dict = dict(map(lambda name: (name, tag(name, getattr(tag_funcs, name))), t
 args_list = []
 parse_args()
 
-

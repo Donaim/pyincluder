@@ -2,7 +2,7 @@ import os
 
 def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
-    if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
+    if (len(path) > 1 and path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
     return path
 def find_read_include_path(rawpath, current_dir, scope_dirs):
     for d in [current_dir] + scope_dirs:
@@ -25,7 +25,7 @@ def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
         if close_index == -1: raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
     else:
         close_index = 0
-        while close_index < len(copy) and not copy[close_index].isspace(): close_index += 1
+        while close_index < len(copy) and (copy[close_index].isalpha() or copy[close_index].isdigit()): close_index += 1
     
     re = copy[:close_index]
     re = re.rstrip(ss)
