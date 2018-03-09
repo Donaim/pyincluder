@@ -2,6 +2,7 @@
 from src.line import line
 from src.label import label
 from src.include_line import in_line
+from src.moveat import moveat
 from src.scope import scope
 from src.outer import outer
 
@@ -29,6 +30,7 @@ class source_file(object):
             x.target_file = source_file(x.realpath, self.sc)
             x.read_target()
     def __read_myself(self):
+        current_move: moveat = None
         with open(self.path, 'r') as reader:
             line_index = 0
             for text_line in reader:
@@ -47,13 +49,19 @@ class source_file(object):
                     # self.my_labels.append(x)
                     self.lines.append(x)
                     continue
- 
-                self.lines.append(l)
+
+                if current_move is not None:
+                    current_move = current_move.append(l)
+                else: 
+                    self.lines.append(l)
+
     def write_me(self, wr: outer, indent: str):
         for l in self.lines:
             if type(l) is label and l.isok():
                 for i in l.includes:
                     i.target_file.write_me(wr, indent + l.indent)
                     wr.write('\n')
+                for m in l.moves:
+                    wr.write(m.text)
             else:
                 wr.write(indent + l.text)

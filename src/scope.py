@@ -7,6 +7,7 @@ class scope(object):
     def __init__(self):
         self.label_list = []
         self.include_list = []
+        self.move_list = []
         self.file_list = []
 
         self.variables = []
@@ -22,6 +23,10 @@ class scope(object):
             lbl = get_label(inc.target_label_name)
             if lbl is None: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label_name, inc.path))
             lbl.includes.append(inc)
-        
+        for mv in self.move_list:
+            lbl = get_label(mv.target_label_name)
+            if lbl is None: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.line.index, mv.line.sfile.path))
+            lbl.moves.append(mv)
+
 
         

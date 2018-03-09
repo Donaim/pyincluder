@@ -16,6 +16,7 @@ class label(line): # label_line
         self.name = lname
         self.indent = self.line.get_indent()
         self.includes = [] # fill it later
+        self.moves = [] # fill later
 
         args, self.condition_str     = get_next_token_arg(args, if_key, if_key_len, None, None, '() ')
         if self.condition_str is None or self.condition_str.isspace() or len(self.condition_str) == 0:
