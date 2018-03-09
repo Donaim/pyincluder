@@ -4,7 +4,11 @@ def format_path(path):
     path = path.replace('/', os.path.sep).replace('\\', os.path.sep)
     if (path[0] == '~' and path[1] == os.path.sep): path = os.path.expanduser('~') + path[1:]
     return path
-
+def find_read_include_path(rawpath, current_dir, scope_dirs):
+    for d in [current_dir] + scope_dirs:
+        path = os.path.join(d, rawpath)
+        if os.path.exists(path): return path
+    return None
 
 def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
     copy = text.lstrip()

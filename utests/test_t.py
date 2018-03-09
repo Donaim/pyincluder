@@ -24,7 +24,7 @@ class ParsersTest(unittest.TestCase):
 
         self.assertIsNotNone(inc)
     def test_label(self):
-        l = line("print(hi) #  some_label:", source_file.create_root("bebe.py"), 1)
+        l = line("print(hi) #  some_label#:", source_file.create_root("bebe.py"), 1)
         lab = label.try_create(l)
         if not lab is None: 
             pp.pprint(format_obj(lab))

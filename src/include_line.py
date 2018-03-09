@@ -19,7 +19,9 @@ class in_line(line): # include_line
 
         self.path = path
         self.realpath = format_path(path)
-        if not os.path.isabs(self.realpath): self.realpath = os.path.join(self.line.sfile.dirname, path)
+        if not os.path.isabs(self.realpath): 
+            self.realpath = find_read_include_path(self.realpath, self.line.sfile.dirname, self.line.sfile.sc.extern_dirs)
+
         self.target_file = None # gonna get it later
 
         in_args, self.target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
@@ -31,4 +33,7 @@ class in_line(line): # include_line
         if path is None: return None
         else: return in_line(l, path, in_args)
     
-    def read_target(self): self.target_file.read()
+    def read_target(self):
+        if self.condition_str in self.line.sfile.sc.variables or self.condition_str is None: # condition is satisfied
+            self.target_file.read()
+        

@@ -3,13 +3,12 @@ from src.line import line
 import random
 
 
-
 def get_label_name(text: str) -> str:
     re = ""
-    for c in reversed(text):
-        if not c.isspace(): re = c + re
+    for c in reversed(text[:-2]):
+        if c.isalpha() or c.isdigit(): re = c + re
         else: break
-    return re[:-1]
+    return re
 
 class label(line): # label_line
     def __init__(self, l: line, lname: str):
@@ -23,7 +22,7 @@ class label(line): # label_line
     def try_create(l: line):
         if not l.is_whitespace_or_empty():
             rstr =l.text.rstrip()
-            if rstr[-1] == ':':
+            if rstr.endswith("#:"):
                 return label(l, get_label_name(rstr))
         return None
     @staticmethod

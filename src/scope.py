@@ -8,6 +8,9 @@ class scope(object):
         self.label_list = []
         self.include_list = []
         self.file_list = []
+
+        self.variables = []
+        self.extern_dirs = []
     def connect_labels(self):
         def get_label(name):
             for lab in self.label_list:
