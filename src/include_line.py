@@ -1,6 +1,6 @@
 
-import config
-from line import line
+import src.config as config
+from src.line import line
 
 include_key = config.COMMENT_CHARS + 'include'
 include_key_len = len(include_key)

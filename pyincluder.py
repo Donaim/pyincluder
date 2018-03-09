@@ -4,8 +4,8 @@ import sys, os
 source = sys.argv[1]
 # output   = sys.argv[2]
 
-from line import line
-from label import label
-from include_line import in_line
-from source_file import source_file
+from src.line import line
+from src.label import label
+from src.include_line import in_line
+from src.source_file import source_file
 

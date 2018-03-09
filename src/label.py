@@ -1,5 +1,5 @@
 
-from line import line
+from src.line import line
 
 def get_label_name(text: str) -> str:
     re = ""

@@ -3,10 +3,10 @@ import unittest
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
-from line import line
-from label import label
-from include_line import in_line
-from source_file import source_file
+from src.line import line
+from src.label import label
+from src.include_line import in_line
+from src.source_file import source_file
 
 class ParsersTest(unittest.TestCase):
     def test_in_line(self):
@@ -34,5 +34,4 @@ class ParsersTest(unittest.TestCase):
         sf.read()
         # pp.pprint(list(map(lambda x: x.text, sf.lines)))
 
-if __name__ == '__main__':
-    unittest.main()
+unittest.main()

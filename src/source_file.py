@@ -1,7 +1,7 @@
 
-from line import line
-from label import label
-from include_line import in_line
+from src.line import line
+from src.label import label
+from src.include_line import in_line
 
 class source_file(object):
     coll = []
