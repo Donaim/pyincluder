@@ -51,7 +51,7 @@ class source_file(object):
                 self.lines.append(l)
     def write_me(self, wr: outer, indent: str):
         for l in self.lines:
-            if type(l) is label:
+            if type(l) is label and l.isok():
                 for i in l.includes:
                     i.target_file.write_me(wr, indent + l.indent)
             else:

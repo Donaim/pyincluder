@@ -33,7 +33,10 @@ class in_line(line): # include_line
         if path is None: return None
         else: return in_line(l, path, in_args)
     
+    def isok(self):
+        return self.condition_str in self.line.sfile.sc.variables or self.condition_str is None or self.condition_str.isspace()
+    
     def read_target(self):
-        if self.condition_str in self.line.sfile.sc.variables or self.condition_str is None: # condition is satisfied
+        if self.isok(): # condition is satisfied
             self.target_file.read()
         
