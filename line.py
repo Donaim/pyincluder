@@ -1,10 +1,12 @@
 
+# from source_file import source_file
+
 class line(object):
-    def __init__(self, text: str, source_file: str):
+    def __init__(self, text: str, sfile):
         self.text = text
-        self.source_file = source_file
+        self.sfile = sfile
     def copy(me):
-        return line(me.text, me.source_file)
+        return line(me.text, me.sfile)
   
     def is_whitespace_or_empty(self): return len(self.text) < 1 or self.text.isspace()
     def get_indent(self) -> str:
