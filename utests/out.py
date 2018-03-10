@@ -28,7 +28,6 @@ class tag(object):
     hi !
     lul lul
 
-
 # for stderr
 import sys
 
@@ -37,7 +36,6 @@ import sys
         class tag(object):
             hi !
             lul lul
-
 
 class arg(object):
     def __init__(self):

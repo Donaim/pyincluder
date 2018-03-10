@@ -57,9 +57,11 @@ class source_reader(object):
         for l in self.lines:
             if type(l) is label:
                 if l.isok():
-                    for i in l.includes + l.moves:
+                    for i in l.includes:
                         i.target_file.write_me(wr, indent + l.indent)
                         wr.write('\n')
+                    for m in l.moves:
+                        m.target_file.write_me(wr, indent + l.indent)
             else:
                 wr.write(indent + l.text)
 
