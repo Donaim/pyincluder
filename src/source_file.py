@@ -53,12 +53,8 @@ class source_reader(object):
         for l in self.lines:
             if type(l) is label:
                 if l.isok():
-                    for i in l.includes:
+                    for i in l.includes + l.moves:
                         i.target_file.write_me(wr, indent + l.indent)
-                        wr.write('\n')
-                    for m in l.moves:
-                        print("WRITING {} MOVE!".format(vars(m)))
-                        m.target_file.write_me(wr, indent + l.indent)
                         wr.write('\n')
             else:
                 wr.write(indent + l.text)
@@ -75,9 +71,6 @@ class source_file(source_reader):
             self.line_index += 1
             return line(text, self, self.line_index)
         source_reader.__init__(self, path, std_read_line, sc)
-
-        self.lines = []
-        self.my_includes = []
 
     @staticmethod
     def create_root(path):

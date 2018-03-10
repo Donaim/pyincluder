@@ -25,6 +25,7 @@ class arg(object):
     def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
 #moveat somelbl 2
 class tag(object):
+    #include <target_info.txt>
     def __init__(self, name, func):
         self.name = name
         self.func = func

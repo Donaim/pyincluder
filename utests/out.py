@@ -28,7 +28,8 @@ import sys
         hi !
         lul lul
         class tag(object):
-            def __init__(self, name, func):
+            hi !
+            lul lul
 
 
 class arg(object):
@@ -36,6 +37,7 @@ class arg(object):
         self.command = None
         self.tags = []
     def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
+        self.name = name
         self.func = func
     def invoke(self, a):
         try:

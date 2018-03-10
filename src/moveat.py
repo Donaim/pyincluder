@@ -29,8 +29,8 @@ class moveat(line): # label_line
         else: return moveat(l, at_arg, args)
     
     def read_to(self, output_file):
-        def readline_f_m():
-            l = self.std_readline()
+        def readline_with_check():
+            l = original_readline()
             if l is None or l.text.lstrip().startswith(moveat_end_key) or (self.max_lines > 0 and len(self.target_file.lines) >= self.max_lines):
                 self.index = l.index
                 return None
@@ -38,8 +38,8 @@ class moveat(line): # label_line
                 return l
         
         self.target_file = output_file
-        self.std_readline = output_file.read_line_f
-        output_file.read_line_f = readline_f_m
+        original_readline = output_file.read_line_f
+        output_file.read_line_f = readline_with_check
         self.target_file.read()
 
     @staticmethod
