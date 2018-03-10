@@ -18,9 +18,10 @@ Includes some preprocessor magic to your project.
 
 # To do
 - [x] `if` option for `#moveat`
+- [ ] improve arg-parsing for instructions. (maybe use argparse module)
 - [ ] `at` option for `#label`
 - [ ] new `#template <var>` instruction (simmilar to c++ templates)
-- [ ] improve conditions for `if` option (mb even up to python.compile)
+- [ ] improve conditions for `if` option (maybe even up to python.compile)
 - [ ] improve typesystem. i.e. connect `#moveat` and `#include`
 
 ## Details
