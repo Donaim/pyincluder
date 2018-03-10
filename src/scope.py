@@ -1,7 +1,7 @@
 
+from src.line import line
 from src.label import label
 from src.include_line import in_line
-
 
 class scope(object):
     def __init__(self):
@@ -29,11 +29,11 @@ class scope(object):
             connected_count = 0
             for lbl in lbl_list:
                 connected_count += 1
-                if any(map(lambda x: x.cmp(mv), self.move_no_duplicates)):
+                if any(map(lambda x: line.sameo(x, mv), self.move_no_duplicates)):
                     print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.sfile.path))
                     continue # dont read repeated files
                 lbl.moves.append(mv)
-            if connected_count <= 0: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.index, mv.sfile.path))
+            if connected_count <= 0: raise Exception("label '{}' for move instruction at {} does not exist!".format(mv.target_label_name, mv.get_pos_string()))
             else: self.move_no_duplicates.append(mv)
 
 

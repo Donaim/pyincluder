@@ -21,5 +21,11 @@ class line(object):
             if c.isspace(): re += c
             else: break
         return re
+    def get_pos(self): return (self.sfile.path, self.index)
+    def get_pos_string(self): return 'line:{:>5} in \"{}\"'.format(self.index, self.sfile.path)
+
+    @staticmethod
+    def sameo(a, b): # same origin
+        return not a.index is None and a.index == b.index and a.sfile.path == b.sfile.path
 
 emptyline = line('', None, -1)

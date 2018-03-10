@@ -47,7 +47,7 @@ class moveat(line, ifable): # label_line
             l = original_readline()
 
             if l is None or l.text.lstrip().startswith(moveat_end_key) or (self.max_lines > 0 and len(self.target_file.lines) >= self.max_lines):
-                self.index = l.index
+                self.end_index = l.index
                 return None
             else:
                 if ok: return l
@@ -61,8 +61,3 @@ class moveat(line, ifable): # label_line
         
         self.target_file.read()
         if not ok: self.target_file.clear()
-
-    @staticmethod
-    def compare(a, b):
-        return a.target_label_name == b.target_label_name and a.sfile.path == b.sfile.path and a.end_index == b.end_index
-    def cmp(self, b): return moveat.compare(self, b)
