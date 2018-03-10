@@ -30,7 +30,7 @@ def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
         if close_index == -1: raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
     else:
         close_index = 0
-        while close_index < len(copy) and (copy[close_index].isalpha() or copy[close_index].isdigit()): close_index += 1
+        while close_index < len(copy) and not copy[close_index].isspace(): close_index += 1
     
     re = copy[:close_index]
     re = re.rstrip(ss)

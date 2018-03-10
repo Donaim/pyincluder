@@ -22,10 +22,15 @@ class label(line): # label_line
             self.condition_str = None
     def isok(self):
         if self.condition_str is None: return True
-        re = self.condition_str in self.line.sfile.sc.variables
 
-        if self.condition_str.startswith('!'): return not re
-        else: return re
+        istrue = not self.condition_str.startswith('!')
+        lstrip = self.condition_str if istrue else self.condition_str[1:]
+
+        re = lstrip in self.line.sfile.sc.variables
+        print("IN VARS:", re)
+
+        if istrue: return re
+        else: return not re
 
     @staticmethod
     def try_create(l: line):
