@@ -22,12 +22,12 @@ def get_next_token_arg(text, name, name_len, open_char, close_char, ss):
     copy = copy[name_len:]
     copy = copy.lstrip()
     if open_char != None:
-        if copy[0] != open_char: raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, open_char))
+        if copy[0] != open_char: return (text, None) # raise Exception("bad include syntax: {} token argument has to begin with '{}' !".format(name, open_char))
         copy = copy[1:]
     copy = copy.lstrip(ss)
     if close_char != None:
         close_index = copy.find(close_char)
-        if close_index == -1: raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
+        if close_index == -1: return (text, None) # raise Exception("bad include syntax: {} token argument has to end with '{}' !".format(name, close_char))
     else:
         close_index = 0
         while close_index < len(copy) and not copy[close_index].isspace(): close_index += 1

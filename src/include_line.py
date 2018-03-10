@@ -30,7 +30,8 @@ class in_line(line, ifable): # include_line
 
     @staticmethod
     def try_create(l: line):
-        in_args, path = get_next_token_arg(l.text, include_key, include_key_len, None, None, '()<>\" ')
+        # in_args, path = get_next_token_arg(l.text, include_key, include_key_len, '<', '>', None)
+        in_args, path = get_next_token_arg(l.text, include_key, include_key_len, None, None, '<>\" ')
         if path is None: return None
         else:
             realpath = format_path(path)
@@ -42,7 +43,8 @@ class in_line(line, ifable): # include_line
 
             in_args, target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
             
-            if any(map(lambda inc: inc.target_label_name == target_label_name and inc.realpath == realpath, l.sfile.sc.include_list)):
+            # if any(map(lambda inc: inc.target_label_unique and inc.target_label_name == target_label_name, l.sfile.sc.include_list)):
+            if any(map(lambda inc: inc.realpath == realpath, l.sfile.sc.include_list)):
                 print("skipped repeated \"{}\" file".format(realpath))
                 return None # dont read repeated files
             

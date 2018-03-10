@@ -9,6 +9,7 @@ from src.include_line import in_line
 from src.source_file import source_file
 from src.scope import scope
 from src.outer import outer
+from src.helper import *
 
 def format_obj(obj):
     v = vars(obj)
@@ -46,6 +47,19 @@ class ParsersTest(unittest.TestCase):
         wr = outer('utests\\out.py')
         sf.write_me(wr, '')
         wr.close()
+
+    def test_performance(self):
+        infile = format_path('~/Documents/dev/SetTheoryP/main.cpp')
+        edirs = [
+            "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.12.25827\\include", 
+            "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.16299.0\\ucrt",
+            "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.16299.0\\shared"
+        ]
+
+        full = [infile] + list(map(lambda x: '-I\"{}\"'.format(x), edirs))
+        
+        import subprocess
+        subprocess.check_call(full)
 
 
 
