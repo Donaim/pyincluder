@@ -4,7 +4,7 @@ import sys
 class log:
     @staticmethod
     def __prefix(l):
-        return l.get_pos_string() + '>'
+        return l.get_pos_string() + ' >'
     @staticmethod
     def warning(l, msg, reason):
         if not reason is None:
