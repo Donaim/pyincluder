@@ -17,10 +17,11 @@ Includes some preprocessor magic to your project.
     Does not allow for repeated code at destination (in contrast to `#include`)  
 
 # To do
-- `if` option for `#moveat`
-- `at` option for `#label`
-- new `#template <var>` instruction. (simmilar to c++ templates)
-- better conditions for `if` option
+- [x] `if` option for `#moveat`
+- [ ] `at` option for `#label`
+- [ ] new `#template <var>` instruction (simmilar to c++ templates)
+- [ ] improve conditions for `if` option (mb even up to python.compile)
+- [ ] improve typesystem. i.e. connect `#moveat` and `#include`
 
 ## Details
 `if` option currently only checks if **pyincluder.py** has (or hasn't with '!' prefix) _**condition**_ in its stdin args.  
