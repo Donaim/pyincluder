@@ -21,7 +21,7 @@ class source_reader(object):
         # self.included_files = []
         # self.my_labels = []
 
-        self.after_write = None
+        self.after_read = None
     def clear(self):
         self.lines.clear()
         self.my_includes.clear()
@@ -33,7 +33,7 @@ class source_reader(object):
             x.target_file = source_file(x.realpath, self.sc)
             x.read_target()
             
-        if not self.after_write is None: self.after_write()
+        if not self.after_read is None: self.after_read()
     def __read_myself(self):
         while True:
             l = self.read_line_f()
@@ -84,7 +84,7 @@ class source_file(source_reader):
             return line(text, self, self.line_index)
         source_reader.__init__(self, path, std_read_line, sc)
 
-        self.after_write = self.close_file
+        self.after_read = self.close_file
     def close_file(self):
         if not self.reader.closed:
             self.reader.close()
