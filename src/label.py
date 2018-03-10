@@ -2,35 +2,22 @@
 from src.line import line
 from src.helper import *
 from src.config import *
+from src.ifable import ifable
 
 label_key = COMMENT_CHARS + 'label'
 label_key_len = len(label_key)
-if_key = 'if'
-if_key_len = len(if_key)
 
-class label(line): # label_line
+class label(line, ifable): # label_line
     def __init__(self, l: line, lname: str, args: str):
         line.init_with(self, l)
+        ifable.__init__(self)
         self.sfile.sc.label_list.append(self)
         self.name = lname
         self.indent = self.get_indent()
         self.includes = [] # fill it later
         self.moves = [] # fill later
 
-        args, self.condition_str     = get_next_token_arg(args, if_key, if_key_len, None, None, '() ')
-        if self.condition_str is None or self.condition_str.isspace() or len(self.condition_str) == 0:
-            self.condition_str = None
-    def isok(self):
-        if self.condition_str is None: return True
-
-        istrue = not self.condition_str.startswith('!')
-        lstrip = self.condition_str if istrue else self.condition_str[1:]
-
-        re = lstrip in self.sfile.sc.variables
-
-        if istrue: return re
-        else: return not re
-
+        args = self.parse_condition(args)
     @staticmethod
     def try_create(l: line):
         args, name = get_next_token_arg(l.text, label_key, label_key_len, None, None, '()<> ')

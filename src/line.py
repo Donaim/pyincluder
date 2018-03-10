@@ -6,7 +6,7 @@ class line(object):
         self.text = text
         self.sfile = sfile
         self.index = index
-    
+
     @staticmethod
     def init_with(inherited_obj, line_to_copy):
         line.__init__(inherited_obj, line_to_copy.text, line_to_copy.sfile, line_to_copy.index)
@@ -19,3 +19,4 @@ class line(object):
             else: break
         return re
 
+emptyline = line('', None, -1)

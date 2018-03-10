@@ -27,6 +27,8 @@ lul lul
 class tag(object):
     hi !
     lul lul
+    def __init__(self, name, func):
+        self.name = name
 
 # for stderr
 import sys
@@ -36,14 +38,14 @@ import sys
         class tag(object):
             hi !
             lul lul
+            def __init__(self, name, func):
+                self.name = name
 
 class arg(object):
     def __init__(self):
         self.command = None
         self.tags = []
     def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
-        self.name = name
-        self.func = func
     def invoke(self, a):
         try:
             if self.func == None: return False # pure tag, do not invoke

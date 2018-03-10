@@ -22,6 +22,10 @@ class source_reader(object):
         # self.my_labels = []
 
         self.after_write = None
+    def clear(self):
+        self.lines.clear()
+        self.my_includes.clear()
+
     def read(self):
         self.__read_myself()
         

@@ -25,7 +25,7 @@ class arg(object):
         self.command = None
         self.tags = []
     def has_tag(self, tname): return any(map(lambda t: t.name == tname, self.tags))
-#moveat somelbl 2
+#moveat somelbl 4 if somecond
 class tag(object):
     #include <target_info.txt>
     def __init__(self, name, func):
