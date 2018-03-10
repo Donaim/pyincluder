@@ -27,7 +27,6 @@ class label(line): # label_line
         lstrip = self.condition_str if istrue else self.condition_str[1:]
 
         re = lstrip in self.line.sfile.sc.variables
-        print("IN VARS:", re)
 
         if istrue: return re
         else: return not re
