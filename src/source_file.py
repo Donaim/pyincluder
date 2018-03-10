@@ -28,6 +28,8 @@ class source_reader(object):
         for x in self.my_includes:
             x.target_file = source_file(x.realpath, self.sc)
             x.read_target()
+            
+        if not self.after_write is None: self.after_write()
     def __read_myself(self):
         while True:
             l = self.read_line_f()
@@ -61,13 +63,13 @@ class source_reader(object):
             else:
                 wr.write(indent + l.text)
 
-        if not self.after_write is None: self.after_write()
 
 class source_file(source_reader):
     def __init__(self, path, sc: scope):
         sc.file_list.append(self)
 
         self.reader = open(path, 'r')
+
         self.line_index = 0
         def std_read_line():
             text = self.reader.readline()
@@ -76,7 +78,10 @@ class source_file(source_reader):
             return line(text, self, self.line_index)
         source_reader.__init__(self, path, std_read_line, sc)
 
-        self.after_write = lambda: self.reader.close()
+        self.after_write = self.close_file
+    def close_file(self):
+        if not self.reader.closed:
+            self.reader.close()
 
     @staticmethod
     def create_root(path):

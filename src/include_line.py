@@ -14,8 +14,8 @@ if_key_len = len(if_key)
 
 class in_line(line): # include_line
     def __init__(self, l: line, path: str, target_label_name: str, in_args: str):
-        self.line = l
-        self.line.sfile.sc.include_list.append(self)
+        line.init_with(self, l)
+        self.sfile.sc.include_list.append(self)
 
         self.path = path
         self.realpath = path
@@ -54,7 +54,7 @@ class in_line(line): # include_line
         istrue = not self.condition_str.startswith('!')
         lstrip = self.condition_str if istrue else self.condition_str[1:]
 
-        re = lstrip in self.line.sfile.sc.variables
+        re = lstrip in self.sfile.sc.variables
 
         if istrue: return re
         else: return not re

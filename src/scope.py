@@ -28,12 +28,12 @@ class scope(object):
             lbl_list = get_labels(mv.target_label_name)
             connected_count = 0
             for lbl in lbl_list:
+                connected_count += 1
                 if any(map(lambda x: x.cmp(mv), self.move_no_duplicates)):
-                    print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.line.sfile.path))
+                    print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.sfile.path))
                     continue # dont read repeated files
                 lbl.moves.append(mv)
-                connected_count += 1
-            if connected_count <= 0: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label_name, inc.path))
+            if connected_count <= 0: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.index, mv.sfile.path))
             else: self.move_no_duplicates.append(mv)
 
 

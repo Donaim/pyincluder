@@ -10,10 +10,10 @@ if_key_len = len(if_key)
 
 class label(line): # label_line
     def __init__(self, l: line, lname: str, args: str):
-        self.line = l
-        self.line.sfile.sc.label_list.append(self)
+        line.init_with(self, l)
+        self.sfile.sc.label_list.append(self)
         self.name = lname
-        self.indent = self.line.get_indent()
+        self.indent = self.get_indent()
         self.includes = [] # fill it later
         self.moves = [] # fill later
 
@@ -26,7 +26,7 @@ class label(line): # label_line
         istrue = not self.condition_str.startswith('!')
         lstrip = self.condition_str if istrue else self.condition_str[1:]
 
-        re = lstrip in self.line.sfile.sc.variables
+        re = lstrip in self.sfile.sc.variables
 
         if istrue: return re
         else: return not re

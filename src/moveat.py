@@ -44,5 +44,5 @@ class moveat(line): # label_line
 
     @staticmethod
     def compare(a, b):
-        return a.target_label_name == b.target_label_name and a.line.sfile.path == b.line.sfile.path and a.end_index == b.end_index
+        return a.target_label_name == b.target_label_name and a.sfile.path == b.sfile.path and a.end_index == b.end_index
     def cmp(self, b): return moveat.compare(self, b)
