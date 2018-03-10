@@ -24,4 +24,13 @@ class label(line, ifable): # label_line
         if name is None or name.isspace(): return None
         else: return label(l, name, args)
 
+    def write_me(self, wr, indent):
+        if self.check_condition():
+            for i in self.includes:
+                i.target_file.write_me(wr, indent + self.indent)
+                wr.write('\n')
+            for m in self.moves:
+                m.target_file.write_me(wr, indent + self.indent)
+        
+
     

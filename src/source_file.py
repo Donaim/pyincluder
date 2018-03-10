@@ -59,15 +59,7 @@ class source_reader(object):
 
     def write_me(self, wr: outer, indent: str):
         for l in self.lines:
-            if type(l) is label:
-                if l.check_condition():
-                    for i in l.includes:
-                        i.target_file.write_me(wr, indent + l.indent)
-                        wr.write('\n')
-                    for m in l.moves:
-                        m.target_file.write_me(wr, indent + l.indent)
-            else:
-                wr.write(indent + l.text)
+            l.write_me(wr, indent)
 
 
 class source_file(source_reader):

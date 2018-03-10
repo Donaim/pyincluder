@@ -10,7 +10,10 @@ class line(object):
     @staticmethod
     def init_with(inherited_obj, line_to_copy):
         line.__init__(inherited_obj, line_to_copy.text, line_to_copy.sfile, line_to_copy.index)
-        
+    
+    def write_me(self, wr, indent):
+        wr.write(indent + self.text)
+
     def is_whitespace_or_empty(self): return len(self.text) < 1 or self.text.isspace()
     def get_indent(self) -> str:
         re = ""
