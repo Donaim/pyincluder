@@ -4,7 +4,7 @@ from src.line import line
 from src.helper import *
 from src.ifable import ifable
 
-import os
+import os, sys
 
 include_key = config.COMMENT_CHARS + 'include'
 include_key_len = len(include_key)
@@ -30,12 +30,15 @@ class in_line(line, ifable): # include_line
 
     @staticmethod
     def try_create(l: line):
-        in_args, path = get_next_token_arg(l.text, include_key, include_key_len, '<', '>', None)
+        in_args, path = get_next_token_arg(l.text, include_key, include_key_len, None, None, '()<>\" ')
         if path is None: return None
         else:
             realpath = format_path(path)
             if not os.path.isabs(realpath): 
                 realpath = find_read_include_path(realpath, l.sfile.dirname, l.sfile.sc.extern_dirs)
+            if realpath is None or not os.path.exists(realpath):
+                print("path \"{}\" does not exist! skipping include at line {} in \"{}\"".format(path, l.index, l.sfile.path), file=sys.stderr)
+                return None
 
             in_args, target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
             

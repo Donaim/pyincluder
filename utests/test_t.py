@@ -17,7 +17,7 @@ def format_obj(obj):
 
 class ParsersTest(unittest.TestCase):
     def test_in_line(self):
-        l = line("    #include <hello.txt> at kek if(move_imports)", source_file.create_root("utests\\target_info.txt") , 1)
+        l = line("    #include <test_t.py> at kek if(move_imports)", source_file.create_root("utests\\target_info.txt") , 1)
         inc = in_line.try_create(l)
         if not inc is None:
             pp.pprint(format_obj(inc))
