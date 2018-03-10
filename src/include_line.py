@@ -46,7 +46,7 @@ class in_line(line, ifable): # include_line
 
             in_args, target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
 
-            if config.SKIP_REPEATED_FILES and any(map(lambda inc: inc.realpath == realpath, l.sfile.sc.include_list)):
+            if config.SKIP_REPEATED_FILES and any(map(lambda inc: inc.index == l.index and inc.sfile.path == l.sfile.path, l.sfile.sc.include_list)):
                 print("skipped repeated \"{}\" file".format(realpath))
                 return None # dont read repeated files
             
