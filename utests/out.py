@@ -22,6 +22,13 @@ class tag_funcs(object):
 tag_funcs_static = filter(lambda name: name[0] != '_', dir(tag_funcs))
 
 
+hi !
+lul lul
+class tag(object):
+    hi !
+    lul lul
+
+
 # for stderr
 import sys
 

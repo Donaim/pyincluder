@@ -13,27 +13,28 @@ class scope(object):
         self.variables = []
         self.extern_dirs = []
     def connect_labels(self):
-        def get_label(name):
-            for lab in self.label_list:
-                if name == lab.name: return lab
-            return None
-        # print("LABELS:[{}]".format(",".join(map(lambda l: l.name, self.label_list))))
-
+        def get_labels(name): return filter(lambda lbl: lbl.name == name, self.label_list)
+        
         for inc in self.include_list:
-            lbl = get_label(inc.target_label_name)
-            if lbl is None: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label_name, inc.path))
-            lbl.includes.append(inc)
+            lbl_list = get_labels(inc.target_label_name)
+            connected_count = 0
+            for lbl in lbl_list:
+                lbl.includes.append(inc)
+                connected_count += 1
+            if connected_count <= 0: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label_name, inc.path))
         
         self.move_no_duplicates = []
         for mv in self.move_list:
-            lbl = get_label(mv.target_label_name)
-            if lbl is None: raise Exception("label '{}' for move instruction at line {} in file \"{}\" does not exist!".format(mv.target_label_name, mv.line.index, mv.line.sfile.path))
-            
-            if any(map(lambda x: x.cmp(mv), self.move_no_duplicates)):
-                print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.line.sfile.path))
-                continue # dont read repeated files
-            lbl.moves.append(mv)
-            self.move_no_duplicates.append(mv)
+            lbl_list = get_labels(mv.target_label_name)
+            connected_count = 0
+            for lbl in lbl_list:
+                if any(map(lambda x: x.cmp(mv), self.move_no_duplicates)):
+                    print("skipped repeated move at \"{}\" in \"{}\"".format(mv.target_label_name, mv.line.sfile.path))
+                    continue # dont read repeated files
+                lbl.moves.append(mv)
+                connected_count += 1
+            if connected_count <= 0: raise Exception("label '{}' for included file \"{}\" does not exist!".format(inc.target_label_name, inc.path))
+            else: self.move_no_duplicates.append(mv)
 
 
         
