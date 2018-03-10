@@ -20,6 +20,8 @@ class source_reader(object):
         self.my_includes = []
         # self.included_files = []
         # self.my_labels = []
+
+        self.after_write = None
     def read(self):
         self.__read_myself()
         
@@ -59,6 +61,8 @@ class source_reader(object):
             else:
                 wr.write(indent + l.text)
 
+        if not self.after_write is None: self.after_write()
+
 class source_file(source_reader):
     def __init__(self, path, sc: scope):
         sc.file_list.append(self)
@@ -71,6 +75,8 @@ class source_file(source_reader):
             self.line_index += 1
             return line(text, self, self.line_index)
         source_reader.__init__(self, path, std_read_line, sc)
+
+        self.after_write = lambda: self.reader.close()
 
     @staticmethod
     def create_root(path):

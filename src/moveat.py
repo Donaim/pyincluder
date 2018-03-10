@@ -13,8 +13,8 @@ at_key_len = len(at_key)
 
 class moveat(line): # label_line
     def __init__(self, l: line, at: str, args: str):
-        self.line = l
-        self.line.sfile.sc.move_list.append(self)
+        line.init_with(self, l)
+        self.sfile.sc.move_list.append(self)
         self.target_label_name = at
 
         self.max_lines = -1
