@@ -16,7 +16,6 @@ class moveat(line): # label_line
         self.line = l
         self.line.sfile.sc.move_list.append(self)
         self.target_label_name = at
-        self.lines = [] # fill it later
 
         self.max_lines = -1
         self.end_index = -1
@@ -29,15 +28,19 @@ class moveat(line): # label_line
         if at_arg is None: return None
         else: return moveat(l, at_arg, args)
     
-    def __read_callback(self, file, l: line):
-        if l.text.lstrip().startswith(moveat_end_key) or (self.max_lines > 0 and len(self.lines) >= self.max_lines):
-            self.line.sfile.appendf = file_std_append # end read
-            self.end_index = l.index
-        else:
-            self.lines.append(l)
-    def begin_read(self):
-        self.line.sfile.appendf = self.__read_callback
-
+    def read_to(self, output_file):
+        def readline_f_m():
+            l = self.std_readline()
+            if l is None or l.text.lstrip().startswith(moveat_end_key) or (self.max_lines > 0 and len(self.target_file.lines) >= self.max_lines):
+                self.index = l.index
+                return None
+            else:
+                return l
+        
+        self.target_file = output_file
+        self.std_readline = output_file.read_line_f
+        output_file.read_line_f = readline_f_m
+        self.target_file.read()
 
     @staticmethod
     def compare(a, b):
