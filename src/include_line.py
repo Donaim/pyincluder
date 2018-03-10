@@ -3,6 +3,7 @@ import src.config as config
 from src.line import line
 from src.helper import *
 from src.ifable import ifable
+from src.logger import log
 
 import os, sys
 
@@ -39,15 +40,15 @@ class in_line(line, ifable): # include_line
                 realpath = find_read_include_path(realpath, l.sfile.dirname, l.sfile.sc.extern_dirs)
             if realpath is None or not os.path.exists(realpath):
                 if config.ERROR_IF_NO_INCLUDE_EXISTS:
-                    raise Exception("path \"{}\" included at line {} in \"{}\" does not exist!".format(path, l.index, l.sfile.path))
+                    raise Exception("path \"{}\" included at {} does not exist!".format(path, l.get_pos_string()))
                 else:
-                    print("path \"{}\" does not exist! skipping include at line {} in \"{}\"".format(path, l.index, l.sfile.path), file=sys.stderr)
+                    log.skip_include(l, path, 'LOG$DOES_NOT_EXIST')
                     return None
 
             in_args, target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
 
             if config.SKIP_REPEATED_FILES and any(map(lambda inc: line.sameo(inc, l), l.sfile.sc.include_list)):
-                print("skipped repeated \"{}\" file".format(realpath))
+                log.skip_include(l, path, "LOG$REPETITION")
                 return None # dont read repeated files
             
             return in_line(l, realpath, target_label_name, in_args)

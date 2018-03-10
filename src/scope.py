@@ -2,9 +2,13 @@
 from src.line import line
 from src.label import label
 from src.include_line import in_line
+import os
 
 class scope(object):
-    def __init__(self):
+    def __init__(self, root_filepath):
+        self.root_filepath = root_filepath
+        self.root_dirpath = os.path.dirname(self.root_filepath)
+        
         self.label_list = []
         self.include_list = []
         self.move_list = []
@@ -12,6 +16,7 @@ class scope(object):
 
         self.variables = []
         self.extern_dirs = []
+        
     def connect_labels(self):
         def get_labels(name): return filter(lambda lbl: lbl.name == name, self.label_list)
         

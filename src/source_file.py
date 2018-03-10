@@ -83,4 +83,4 @@ class source_file(source_reader):
 
     @staticmethod
     def create_root(path):
-        return source_file(path, scope())
+        return source_file(path, scope(path))

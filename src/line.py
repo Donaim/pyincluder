@@ -1,5 +1,6 @@
 
 # from src.source_file import source_file
+import os
 
 class line(object):
     def __init__(self, text: str, sfile, index: int):
@@ -22,7 +23,8 @@ class line(object):
             else: break
         return re
     def get_pos(self): return (self.sfile.path, self.index)
-    def get_pos_string(self): return 'line:{:>5} in \"{}\"'.format(self.index, self.sfile.path)
+    def get_pos_string(self): 
+        return 'line:{:>4} in \"{}\"'.format(self.index, os.path.relpath(self.sfile.path, self.sfile.sc.root_dirpath))
 
     @staticmethod
     def sameo(a, b): # same origin
