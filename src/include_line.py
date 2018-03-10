@@ -38,13 +38,15 @@ class in_line(line, ifable): # include_line
             if not os.path.isabs(realpath): 
                 realpath = find_read_include_path(realpath, l.sfile.dirname, l.sfile.sc.extern_dirs)
             if realpath is None or not os.path.exists(realpath):
-                print("path \"{}\" does not exist! skipping include at line {} in \"{}\"".format(path, l.index, l.sfile.path), file=sys.stderr)
-                return None
+                if config.ERROR_IF_NO_INCLUDE_EXISTS:
+                    raise Exception("path \"{}\" included at line {} in \"{}\" does not exist!".format(path, l.index, l.sfile.path))
+                else:
+                    print("path \"{}\" does not exist! skipping include at line {} in \"{}\"".format(path, l.index, l.sfile.path), file=sys.stderr)
+                    return None
 
             in_args, target_label_name = get_next_token_arg(in_args, at_key, at_key_len, None, None, '() ')
-            
-            # if any(map(lambda inc: inc.target_label_unique and inc.target_label_name == target_label_name, l.sfile.sc.include_list)):
-            if any(map(lambda inc: inc.realpath == realpath, l.sfile.sc.include_list)):
+
+            if config.SKIP_REPEATED_FILES and any(map(lambda inc: inc.realpath == realpath, l.sfile.sc.include_list)):
                 print("skipped repeated \"{}\" file".format(realpath))
                 return None # dont read repeated files
             

@@ -49,6 +49,9 @@ class ParsersTest(unittest.TestCase):
         wr.close()
 
     def test_performance(self):
+        return
+        
+        includer_path = format_path('../pyincluder.py')
         infile = format_path('~/Documents/dev/SetTheoryP/main.cpp')
         edirs = [
             "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.12.25827\\include", 
@@ -56,7 +59,7 @@ class ParsersTest(unittest.TestCase):
             "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.16299.0\\shared"
         ]
 
-        full = [infile] + list(map(lambda x: '-I\"{}\"'.format(x), edirs))
+        full = ['py'] + [includer_path] + [infile] + list(map(lambda x: '-I\"{}\"'.format(x), edirs))
         
         import subprocess
         subprocess.check_call(full)
