@@ -53,7 +53,7 @@ class moveat(line, ifable): # label_line
                 if ok: return l
                 else: return emptyline
         
-        ok = self.isok()
+        ok = self.check_condition()
 
         self.target_file = output_file
         original_readline = output_file.read_line_f

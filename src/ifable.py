@@ -13,14 +13,15 @@ class ifable(object):
         if self.condition_str is None or self.condition_str.isspace() or len(self.condition_str) == 0:
             self.condition_str = None
         return args
-    def isok(self):
+    def check_condition(self):
         if self.condition_str is None: return True
 
         negated = self.condition_str.startswith('!')
+        
         lstrip = self.condition_str
         if negated: lstrip = lstrip[1:]
 
         re = lstrip in self.sfile.sc.variables
+        if negated: re = not re
 
-        if negated: return not re
-        else: return re
+        return re

@@ -46,6 +46,6 @@ class in_line(line, ifable): # include_line
             return in_line(l, realpath, target_label_name, in_args)
 
     def read_target(self):
-        if self.isok(): # condition is satisfied
+        if self.check_condition(): # condition is satisfied
             self.target_file.read()
         
