@@ -1,5 +1,5 @@
 
-import src.config as config
+from src.config import config
 from src.line import line
 from src.helper import *
 from src.ifable import ifable

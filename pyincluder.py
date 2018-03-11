@@ -5,12 +5,10 @@ source = sys.argv[1]
 output   = sys.argv[2]
 
 #imports
-from src.line import line
-from src.label import label
-from src.include_line import in_line
 from src.source_file import source_file
 from src.scope import scope
 from src.outer import outer
+from src.config import config
 
 sf = source_file.create_root(source)
 
@@ -23,8 +21,13 @@ for arg in sys.argv[3:]:
                 continue
         raise Exception("Unknown option: \"{}\"".format(arg))
     else: sf.sc.variables.append(arg)
+
+#prepare
+print('')
 print("VARS={};".format(sf.sc.variables))
 print("EDIRS={};".format(sf.sc.extern_dirs))
+config.printme()
+print('')
 
 # reading
 sf.read()

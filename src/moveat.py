@@ -3,11 +3,12 @@ from src.line import *
 from src.helper import *
 from src.config import *
 from src.ifable import ifable
+from src.config import config
 import random
 
-moveat_key = COMMENT_CHARS + 'moveat'
+moveat_key = config.COMMENT_CHARS + 'moveat'
 moveat_key_len = len(moveat_key)
-moveat_end_key = COMMENT_CHARS + 'endmove'
+moveat_end_key = config.COMMENT_CHARS + 'endmove'
 moveat_end_key_len = len(moveat_end_key)
 at_key = 'at'
 at_key_len = len(at_key)

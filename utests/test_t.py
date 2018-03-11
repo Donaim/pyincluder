@@ -10,6 +10,7 @@ from src.source_file import source_file
 from src.scope import scope
 from src.outer import outer
 from src.helper import *
+from src.config import config
 
 def format_obj(obj):
     v = vars(obj)
@@ -64,6 +65,9 @@ class ParsersTest(unittest.TestCase):
         
         import subprocess
         subprocess.check_call(full)
+
+    def test_printconfig(self):
+        config.printme()
 
 
 

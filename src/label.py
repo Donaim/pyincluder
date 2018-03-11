@@ -3,8 +3,9 @@ from src.line import line
 from src.helper import *
 from src.config import *
 from src.ifable import ifable
+from src.config import config
 
-label_key = COMMENT_CHARS + 'label'
+label_key = config.COMMENT_CHARS + 'label'
 label_key_len = len(label_key)
 
 class label(line, ifable): # label_line
